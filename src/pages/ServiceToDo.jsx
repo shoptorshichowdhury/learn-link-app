@@ -6,6 +6,7 @@ import PageTitle from "../components/shared/PageTitle";
 import background from "../assets/allservicesBackground.png";
 import courseIcon from "../assets/allServiceIcon.png";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { FaSpinner } from "react-icons/fa6";
 
 const ServiceToDo = () => {
   const axiosSecure = useAxiosSecure();
@@ -57,7 +58,11 @@ const ServiceToDo = () => {
 
       {/* service to do container */}
       <div>
-        {services.length !== 0 && (
+        {services.length !== 0 && loading ? (
+          <div className="flex justify-center items-center">
+            <FaSpinner className="text-base md:text-lg lg:text-xl animate-spin" />
+          </div>
+        ) : (
           <div className="w-11/12 mx-auto py-12">
             <h3 className="text-xl md:text-3xl font-poppins font-medium my-8 pl-4 border-l-4 border-secondary">
               Total Course: {services.length}
