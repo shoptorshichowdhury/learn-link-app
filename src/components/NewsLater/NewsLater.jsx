@@ -5,13 +5,13 @@ const NewsLater = () => {
         <h3 className="text-xl md:text-2xl lg:text-3xl font-semibold">
           Subscribe to our Newslater
         </h3>
-        <p className="font-medium">
+        <p className="font-medium text-sm md:text-base">
           Get the latest courses & tips—straight to your inbox!
         </p>
       </div>
       <div className="flex flex-col justify-center items-center">
         <form action="">
-          <div className="join">
+          <div className="join flex-col md:flex-row">
             <input
               className="input input-bordered join-item"
               placeholder="Your Email Address"

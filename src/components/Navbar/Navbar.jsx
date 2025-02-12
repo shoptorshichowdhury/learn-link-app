@@ -131,7 +131,7 @@ const Navbar = () => {
           <div onClick={logOut} className="flex items-center gap-2 btn bg-bgColor border-none hover:bg-bgColor/60">
             <div
               title="logout"
-              className="h-8 w-8 md:w-10 md:h-10 lg:h-10 lg:w-10 rounded-full cursor-pointer"
+              className="w-6 h-6 sm:h-8 sm:w-8 md:w-10 md:h-10 lg:h-10 lg:w-10 rounded-full cursor-pointer"
             >
               {user && (
                 <img
