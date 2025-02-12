@@ -1,4 +1,4 @@
-import { FaArrowRight, FaBook } from "react-icons/fa6";
+import { FaArrowRight, FaBook, FaSpinner } from "react-icons/fa6";
 import PopularServiceCard from "../PopularServiceCard/PopularServiceCard";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -7,17 +7,25 @@ import { motion } from "motion/react";
 
 const PopularServices = () => {
   const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchAllServices = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/popularServices`
-      );
-      setServices(data);
+      setLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_API_URL}/popularServices`
+        );
+        setServices(data);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchAllServices();
   }, []);
-
+  
   return (
     <div className="w-11/12 mx-auto py-10 space-y-5 md:space-y-14">
       {/* top section */}
@@ -54,9 +62,15 @@ const PopularServices = () => {
 
       {/* popular course container  */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-        {services.map((service) => (
-          <PopularServiceCard key={service._id} service={service} />
-        ))}
+        {loading ? (
+          <div className="flex justify-center items-center">
+            <FaSpinner className="text-base md:text-lg lg:text-xl animate-spin" />
+          </div>
+        ) : (
+          services.map((service) => (
+            <PopularServiceCard key={service._id} service={service} />
+          ))
+        )}
       </div>
     </div>
   );

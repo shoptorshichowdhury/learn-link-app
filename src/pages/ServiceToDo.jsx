@@ -11,12 +11,22 @@ const ServiceToDo = () => {
   const axiosSecure = useAxiosSecure();
   const [services, setServices] = useState([]);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllServices = async () => {
-      const { data } = await axiosSecure.get(`/service-to-do/${user?.email}`);
-      setServices(data);
+      setLoading(true); // Start loading
+      try {
+        const { data } = await axiosSecure.get(
+          `/bookedServices/${user?.email}`
+        );
+        setServices(data);
+      } catch (err) {
+        console.log("Failed to fetch booked services", err);
+      }
+      setLoading(false);
     };
+
     fetchAllServices();
   }, [user]);
 

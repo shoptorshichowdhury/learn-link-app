@@ -3,20 +3,32 @@ import ServiceCard from "../components/ServiceCard/ServiceCard";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import PageTitle from "../components/shared/PageTitle";
+import { FaSpinner } from "react-icons/fa6";
 
 const AllServices = () => {
   const [services, setServices] = useState([]);
   const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("");
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchAllServices = async () => {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API_URL}/services?search=${search}`
-      );
-      setServices(data);
+      setLoading(true);
+      try {
+        const { data } = await axios.get(
+          `${
+            import.meta.env.VITE_API_URL
+          }/services?search=${search}&sort=${sort}`
+        );
+        setServices(data);
+      } catch (error) {
+        console.error("Error fetching services:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchAllServices();
-  }, [search]);
+  }, [search, sort]);
 
   return (
     <section>
@@ -72,13 +84,34 @@ const AllServices = () => {
               />
             </svg>
           </label>
+
+          {/* sorting filter */}
+          <label className="border-2 border-secondary rounded-md">
+            <select
+              name="price"
+              id="price"
+              onChange={(e) => setSort(e.target.value)}
+              value={sort}
+              className="py-3 px-2 rounded-md"
+            >
+              <option value="">Sort By Price</option>
+              <option value="dsc">Descending Order</option>
+              <option value="asc">Ascending Order</option>
+            </select>
+          </label>
         </div>
 
         {/* all servics here */}
         <div className="space-y-5 md:space-y-8 my-12">
-          {services.map((service) => (
-            <ServiceCard key={service._id} service={service} />
-          ))}
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <FaSpinner className="text-base md:text-lg lg:text-xl animate-spin" />
+            </div>
+          ) : (
+            services.map((service) => (
+              <ServiceCard key={service._id} service={service} />
+            ))
+          )}
         </div>
       </div>
     </section>

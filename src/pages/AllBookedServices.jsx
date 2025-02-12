@@ -6,17 +6,28 @@ import { AuthContext } from "../providers/AuthProvider";
 import BookedCard from "../components/BookedCard/BookedCard";
 import PageTitle from "../components/shared/PageTitle";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { FaSpinner } from "react-icons/fa6";
 
 const AllBookedServices = () => {
   const axiosSecure = useAxiosSecure();
   const [services, setServices] = useState([]);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAllServices = async () => {
-      const { data } = await axiosSecure.get(`/bookedServices/${user?.email}`);
-      setServices(data);
+      setLoading(true); // Start loading
+      try {
+        const { data } = await axiosSecure.get(
+          `/bookedServices/${user?.email}`
+        );
+        setServices(data);
+      } catch (err) {
+        console.log("Failed to fetch booked services", err);
+      }
+      setLoading(false);
     };
+
     fetchAllServices();
   }, [user]);
 
@@ -51,9 +62,15 @@ const AllBookedServices = () => {
           Total Booked Course: {services.length}
         </h3>
         <div className="space-y-5 md:space-y-8 my-12">
-          {services.map((service) => (
-            <BookedCard key={service._id} service={service} />
-          ))}
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <FaSpinner className="text-base md:text-lg lg:text-xl animate-spin" />
+            </div>
+          ) : (
+            services.map((service) => (
+              <BookedCard key={service._id} service={service} />
+            ))
+          )}
         </div>
       </div>
     </section>

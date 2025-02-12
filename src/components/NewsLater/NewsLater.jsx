@@ -16,7 +16,7 @@ const NewsLater = () => {
               className="input input-bordered join-item"
               placeholder="Your Email Address"
             />
-            <button className="btn btn-sm md:btn-md bg-secondary text-primary border-transparent text-base hover:bg-transparent hover:border-primary join-item">Subscribe</button>
+            <button className="btn btn-md bg-secondary text-primary border-transparent text-base hover:bg-transparent hover:border-primary join-item">Subscribe</button>
           </div>
         </form>
       </div>

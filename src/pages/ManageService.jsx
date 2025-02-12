@@ -6,19 +6,29 @@ import { AuthContext } from "../providers/AuthProvider";
 import toast from "react-hot-toast";
 import PageTitle from "../components/shared/PageTitle";
 import useAxiosSecure from "../hooks/useAxiosSecure";
+import { FaSpinner } from "react-icons/fa6";
 
 const ManageService = () => {
   const axiosSecure = useAxiosSecure();
   const [services, setServices] = useState([]);
   const { user } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchAllServices();
   }, [user]);
 
   const fetchAllServices = async () => {
-    const { data } = await axiosSecure.get(`/my-added-services/${user?.email}`);
-    setServices(data);
+    setLoading(true);
+    try {
+      const { data } = await axiosSecure.get(
+        `/my-added-services/${user?.email}`
+      );
+      setServices(data);
+    } catch (err) {
+      toast.error("Failed to fetch services");
+    }
+    setLoading(false);
   };
 
   //handle delete btn
@@ -93,13 +103,19 @@ const ManageService = () => {
           My Added course: {services.length}
         </h3>
         <div className="space-y-8 md:space-y-10">
-          {services.map((service) => (
-            <ManageServiceCard
-              modernDelete={modernDelete}
-              key={service._id}
-              service={service}
-            />
-          ))}
+          {loading ? (
+            <div className="flex justify-center items-center">
+              <FaSpinner className="text-base md:text-lg lg:text-xl animate-spin" />
+            </div>
+          ) : (
+            services.map((service) => (
+              <ManageServiceCard
+                modernDelete={modernDelete}
+                key={service._id}
+                service={service}
+              />
+            ))
+          )}
         </div>
       </div>
     </section>
