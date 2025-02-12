@@ -4,15 +4,16 @@ const DarkMood = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    const systemPrefersDark = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-    const selectedTheme = localStorage.getItem("selectedTheme");
+    const storedTheme = localStorage.getItem("selectedTheme");
 
-    if (selectedTheme) {
-      setIsDarkMode(selectedTheme === "dark");
+    const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    if (storedTheme) {
+      setIsDarkMode(storedTheme === "dark");
+      document.querySelector("body").setAttribute("data-theme", storedTheme);
     } else {
       setIsDarkMode(systemPrefersDark);
+      document.querySelector("body").setAttribute("data-theme", systemPrefersDark ? "dark" : "light");
     }
   }, []);
 
