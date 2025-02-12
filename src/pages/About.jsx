@@ -29,7 +29,7 @@ const About = () => {
       </div>
 
       {/* main part */}
-      <div className="w-11/12 mx-auto py-12 space-y-5">
+      <div className="w-11/12 mx-auto py-12 space-y-8">
         {/* image part here */}
         <div>
           <img
