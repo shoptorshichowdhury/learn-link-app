@@ -19,6 +19,9 @@ const Navbar = () => {
       <li>
         <NavLink to={"/allServices"}>Services</NavLink>
       </li>
+      <li>
+        <NavLink to={"/about"}>About</NavLink>
+      </li>
     </>
   );
 
@@ -45,9 +48,9 @@ const Navbar = () => {
       <div className="font-poppins">
         <Link
           to={`/`}
-          className="flex md:flex-row flex-col md:items-center md:gap-2"
+          className="flex flex-row items-center gap-2"
         >
-          <div className="w-10 h-10 md:w-16 md:h-16">
+          <div className="w-8 h-8 md:w-16 md:h-16">
             <img className="w-full h-full object-cover" src={logo} alt="logo" />
           </div>
           <p className="text-xl md:text-3xl lg:text-4xl text-accent">
@@ -115,7 +118,7 @@ const Navbar = () => {
       </div>
 
       {/* navbar end */}
-      <div className="flex flex-col-reverse md:flex-row items-center gap-2 md:gap-3 lg:gap-8 text-white">
+      <div className="flex flex-row items-center gap-3 md:gap-4 lg:gap-8 text-white">
         <DarkMode />
         {!user && (
           <Link to={`/login`}>
